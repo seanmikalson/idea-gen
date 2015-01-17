@@ -5,9 +5,9 @@ class TopicsController < ApplicationController
 	end
 
 	def create
-		q = params[:topic][:text]
-		response = HTTParty.get("https://www.googleapis.com/freebase/v1/search?query=&key=AIzaSyAmHdenRKINiNhTZZCPScUKuRwWaWt1KBg&filter=(any+broader_than:\"#{q}\" narrower_than:\"#{q}\")&indent=true");
-		@res = response.body
+		freebaseReq = FreebaseRequest.new(params[:topic][:text])
+
+		@res = freebaseReq.sendRequest()
 	end
 
 	def show
