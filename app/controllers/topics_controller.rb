@@ -2,23 +2,15 @@ require 'httparty'
 
 class TopicsController < ApplicationController
 	def new
-		response = HTTParty.get('http://www.google.ca');
-		@res = response.body
 	end
 
 	def create
-		@topic = Topic.new(topic_params)
-
-		@topic.save
-		redirect_to @topic
+		q = params[:topic][:text]
+		response = HTTParty.get("https://www.googleapis.com/freebase/v1/search?query=&key=AIzaSyAmHdenRKINiNhTZZCPScUKuRwWaWt1KBg&filter=(any+broader_than:\"#{q}\" narrower_than:\"#{q}\")&indent=true");
+		@res = response.body
 	end
 
 	def show
 		@topic = Topic.find(params[:id])
 	end
-
-	private
-		def topic_params
-			params.require(:topic).permit(:text)
-		end
 end
