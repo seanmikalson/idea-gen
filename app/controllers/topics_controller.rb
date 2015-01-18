@@ -18,6 +18,7 @@ class TopicsController < ApplicationController
 	def getAllRelatedTopics (topic, depth)
 
 		rootNode = TreeNode.new(topic)
+		rootNode.setRoot(rootNode)
 		rootNode.expand(depth)
 		rootNode
 	end
