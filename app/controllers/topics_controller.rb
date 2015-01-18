@@ -1,4 +1,5 @@
 require 'httparty'
+require 'treenode'
 
 class TopicsController < ApplicationController
 
@@ -15,26 +16,24 @@ class TopicsController < ApplicationController
 	end
 
 	def getAllRelatedTopics (topic, depth)
-		listToQuery = getRelatedTo(topic)
-		allRelated = listToQuery
 
-		for i in 0..depth
-			tempList = []
-			listToQuery.each do |r|
-				Logger.new(STDOUT).info r
-				if r != nil
-					getRelatedTo(r['name']).each do |e|
-						tempList.push(e)
-					end
-				end
-			end
-			listToQuery = tempList
-			listToQuery.each do |e|
-				allRelated.push(e)
-			end
-		end 
+		rootNode = TreeNode.new(topic)
+		expandNode(rootNode, depth)
+		rootNode
 
-		allRelated
+	end
+
+	def expandNode(node, level)
+		if(level > 0)
+			children = getRelatedTo(node.value)
+			children.each do |relatedTopic|
+				childNode = TreeNode.new(relatedTopic['name'])
+				
+				expandNode(childNode, level-1)
+				node.addChild(childNode)
+			end
+		end
+		node
 	end
 
 	def getRelatedTo(topic)

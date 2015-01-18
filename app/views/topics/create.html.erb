@@ -1,3 +1,11 @@
-<% @res.each do |element| %>
-  <li><%= element['name'] %></li>
+<%= @res.value %>
+<% def printNode(node) %>
+	<% node.children.each do |element| %>
+	 	<li><%= element.value %></li>
+	 	<ul>
+	 	<% printNode element %>
+	 	</ul>
+ 	<% end %>
 <% end %>
+
+<% printNode @res %>
