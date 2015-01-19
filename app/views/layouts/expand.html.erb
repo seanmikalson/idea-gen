@@ -1,20 +1,15 @@
-<%= @res.value %>
+  <% @n.children.each do |element| %>
+    <h5><%= element.value %></h5>
+    <div id=<%= element.value %>></div>
+  <% end %>
 
-<div id="menu">
-	<% @res.children.each do |element| %>
-	 	<h5><%= element.value %></h5>
-	 	<div id=<%= element.value %>></div>
- 	<% end %>
-</div>
-
-<head>
 <script>
  var loadContent = function (clicked) {  
      $.ajax({  
        type: 'GET',  
        url: '/topics/' + clicked
      }).done(function(data) {
-     	$('#'+clicked).html(data);
+      $('#'+clicked).html(data);
    });  
    };
 
@@ -29,4 +24,3 @@
    });  
  }); 
 </script>
-</head>

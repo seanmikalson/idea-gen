@@ -8,18 +8,18 @@ class TopicsController < ApplicationController
 
 	def create
 		input = params[:topic][:text]
-		@res = getAllRelatedTopics(input,3)
+		@res = getAllRelatedTopics(input)
 	end
 
 	def show
-		@topic = Topic.find(params[:id])
+		@n = getAllRelatedTopics(params[:id])
+		render :layout => "expand"
 	end
 
-	def getAllRelatedTopics (topic, depth)
+	def getAllRelatedTopics (topic)
 
 		rootNode = TreeNode.new(topic)
-		rootNode.setRoot(rootNode)
-		rootNode.expand(depth)
+		rootNode.expand
 		rootNode
 	end
 end

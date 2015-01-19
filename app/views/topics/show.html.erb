@@ -1,4 +1,4 @@
-<p>
-  <strong>Text:</strong>
-  <%= @res %>
-</p>
+<% @n.children.each do |element| %>
+	 	<h5><%= element.value %></h5>
+	 	<div id=<%= element.value %>></div>
+<% end %>
